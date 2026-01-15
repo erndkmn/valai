@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ValAI - Valorant Statistics</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 ValAI</h1>
+            <p class="subtitle">Valorant Statistics & Analysis</p>
+        </header>
+
+        <div class="player-selector">
+            <label for="playerSelect">Select Player:</label>
+            <select id="playerSelect">
+                <option value="">Loading players...</option>
+            </select>
+            <button id="loadStatsBtn">Load Stats</button>
+        </div>
+
+        <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+        <div id="statsContent" style="display: none;">
+            <!-- Quick Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Headshot Rate</div>
+                    <div class="stat-value" id="hsRate">-</div>
+                    <div class="stat-sublabel" id="hsRateSublabel">Average</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Kills</div>
+                    <div class="stat-value" id="kills">-</div>
+                    <div class="stat-sublabel">Last Match</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Total Shots</div>
+                    <div class="stat-value" id="shots">-</div>
+                    <div class="stat-sublabel">Last Match</div>
+                </div>
+            </div>
+
+            <!-- Stability Analysis Section -->
+            <div class="stability-section">
+                <h2>Stability Analysis</h2>
+                <div class="stability-card" id="stabilityCard">
+                    <div class="stability-header">
+                        <div>
+                            <div class="stability-label">
+                                Stability Score
+                                <span class="tooltip-trigger" id="stabilityTooltipTrigger">
+                                    <span class="tooltip-icon">?</span>
+                                    <div class="tooltip-content" id="stabilityTooltip">
+                                        <strong>Stability Score</strong><br>
+                                        Measures how consistent your headshot rate is across matches.<br><br>
+                                        <strong>Scale (0-100):</strong><br>
+                                        • 71-100: Stable - Consistent performance<br>
+                                        • 31-70: Inconsistent - Moderate variation<br>
+                                        • 0-30: Unstable - High variation<br><br>
+                                        <strong>What affects it:</strong><br>
+                                        Lower variation in HS rate = Higher score<br>
+                                        Higher variation in HS rate = Lower score
+                                    </div>
+                                </span>
+                            </div>
+                            <div class="stability-value" id="stabilityScore">-</div>
+                        </div>
+                        <div class="stability-badge" id="stabilityBadge">
+                            <span id="stabilityLabel">-</span>
+                        </div>
+                    </div>
+                    <div class="stability-description" id="stabilityDescription"></div>
+                    <div class="stability-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Volatility:</span>
+                            <span class="detail-value" id="volatility">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Average HS Rate:</span>
+                            <span class="detail-value" id="avgHsRate">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Matches Analyzed:</span>
+                            <span class="detail-value" id="matchCount">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeframe Selector -->
+                <div class="timeframe-selector">
+                    <div class="timeframe-segmented-control" id="timeframeSelector">
+                        <button class="timeframe-btn" data-timeframe="today">Today</button>
+                        <button class="timeframe-btn" data-timeframe="yesterday">Yesterday</button>
+                        <button class="timeframe-btn" data-timeframe="week">Week</button>
+                        <button class="timeframe-btn" data-timeframe="month">Month</button>
+                        <button class="timeframe-btn" data-timeframe="season">Season</button>
+                        <button class="timeframe-btn active" data-timeframe="all_time">All Time</button>
+                    </div>
+                </div>
+
+                <!-- Trend Chart -->
+                <div class="chart-container">
+                    <canvas id="trendChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Recent Matches -->
+            <div class="matches-section">
+                <h2>Recent Matches</h2>
+                <div id="matchesList" class="matches-list"></div>
+            </div>
+        </div>
+
+        <div id="loadingIndicator" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Loading data...</p>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
