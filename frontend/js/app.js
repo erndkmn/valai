@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Setup timeframe selector
     setupTimeframeSelector();
+    
+    // Setup tab navigation
+    setupTabNavigation();
 });
 
 async function loadPlayers() {
@@ -65,6 +68,32 @@ function setupTimeframeSelector() {
     });
 }
 
+function setupTabNavigation() {
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabContents = {
+        'stability': document.getElementById('stabilityTab'),
+        'positioning': document.getElementById('positioningTab'),
+        'copilot': document.getElementById('copilotTab')
+    };
+    
+    tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetTab = btn.dataset.tab;
+            
+            // Update active button state
+            tabButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            // Show/hide tab contents
+            Object.keys(tabContents).forEach(tabName => {
+                if (tabContents[tabName]) {
+                    tabContents[tabName].style.display = tabName === targetTab ? 'block' : 'none';
+                }
+            });
+        });
+    });
+}
+
 async function loadPlayerStats() {
     const playerSelect = document.getElementById('playerSelect');
     const playerId = playerSelect.value;
@@ -81,8 +110,7 @@ async function loadPlayerStats() {
         hideError();
         
         // Load stats with current timeframe
-        const [avgHsRate, stability, matches] = await Promise.all([
-            api.getAvgHsRate(playerId, currentTimeframe),
+        const [stability, matches] = await Promise.all([
             api.getStability(playerId, currentTimeframe),
             api.getMatches(playerId, 100, currentTimeframe)  // Get more matches for filtering
         ]);
@@ -90,10 +118,7 @@ async function loadPlayerStats() {
         // Check if this is an empty timeframe (no matches)
         const isEmpty = stability.empty || matches.empty || matches.count === 0;
         
-        // Display average HS rate (handles empty state)
-        displayAverageHsRate(avgHsRate, isEmpty);
-        
-        // Display stability analysis (handles empty state)
+        // Display stability analysis (handles empty state) - avgHsRate is shown here
         displayStabilityAnalysis(stability, isEmpty);
         
         // Display recent matches (handles empty state)
@@ -105,26 +130,6 @@ async function loadPlayerStats() {
         console.error('Error loading stats:', error);
     } finally {
         showLoading(false);
-    }
-}
-
-function displayAverageHsRate(data, isEmpty = false) {
-    if (data.error) {
-        showError(data.error);
-        return;
-    }
-    
-    const hsRateEl = document.getElementById('hsRate');
-    const sublabel = document.getElementById('hsRateSublabel');
-    
-    if (isEmpty || data.empty) {
-        hsRateEl.textContent = '—';
-        hsRateEl.classList.add('muted-value');
-        sublabel.textContent = 'No data for ' + getTimeframeLabel(currentTimeframe);
-    } else {
-        hsRateEl.textContent = data.avg_hs_rate.toFixed(1) + '%';
-        hsRateEl.classList.remove('muted-value');
-        sublabel.textContent = getTimeframeLabel(currentTimeframe) + ' Average';
     }
 }
 

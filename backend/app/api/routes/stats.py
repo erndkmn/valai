@@ -175,3 +175,13 @@ async def get_all_players():
         return {"players": players, "count": len(players)}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+import json
+from fastapi.responses import JSONResponse
+
+@router.get("/match")
+async def get_match():
+    file_path = os.path.join(os.path.dirname(__file__), "../../../response1.json")
+    with open(file_path, "r") as f:
+        data = json.load(f)
+    return JSONResponse(content=data)

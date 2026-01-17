@@ -25,28 +25,18 @@
         <div id="errorMessage" class="error-message" style="display: none;"></div>
 
         <div id="statsContent" style="display: none;">
-            <!-- Quick Stats Cards -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-label">Headshot Rate</div>
-                    <div class="stat-value" id="hsRate">-</div>
-                    <div class="stat-sublabel" id="hsRateSublabel">Average</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Kills</div>
-                    <div class="stat-value" id="kills">-</div>
-                    <div class="stat-sublabel">Last Match</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Total Shots</div>
-                    <div class="stat-value" id="shots">-</div>
-                    <div class="stat-sublabel">Last Match</div>
-                </div>
+            <!-- Tab Navigation -->
+            <div class="tab-navigation">
+                <button class="tab-btn active" data-tab="stability">Stability</button>
+                <button class="tab-btn" data-tab="positioning">Positioning</button>
+                <button class="tab-btn" data-tab="copilot">Copilot</button>
             </div>
 
-            <!-- Stability Analysis Section -->
-            <div class="stability-section">
-                <h2>Stability Analysis</h2>
+            <!-- Stability Tab Content -->
+            <div class="tab-content" id="stabilityTab">
+                <!-- Stability Analysis Section -->
+                <div class="stability-section">
+                    <h2>Stability Analysis</h2>
                 <div class="stability-card" id="stabilityCard">
                     <div class="stability-header">
                         <div>
@@ -112,6 +102,23 @@
             <div class="matches-section">
                 <h2>Recent Matches</h2>
                 <div id="matchesList" class="matches-list"></div>
+            </div>
+            </div><!-- End Stability Tab Content -->
+
+            <!-- Positioning Tab Content -->
+            <div class="tab-content" id="positioningTab" style="display: none;">
+                <div class="tab-placeholder">
+                    <h2>Positioning Analysis</h2>
+                    <p>Coming soon...</p>
+                </div>
+            </div>
+
+            <!-- Copilot Tab Content -->
+            <div class="tab-content" id="copilotTab" style="display: none;">
+                <div class="tab-placeholder">
+                    <h2>Copilot</h2>
+                    <p>Coming soon...</p>
+                </div>
             </div>
         </div>
 
