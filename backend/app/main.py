@@ -1,8 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
-from app.api.routes import stats
+from app.api.routes import stats, chat
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = FastAPI(title="ValAI - Valorant Statistics API", version="1.0.0")
 
@@ -17,6 +21,7 @@ app.add_middleware(
 
 # Include routers
 app.include_router(stats.router)
+app.include_router(chat.router)
 
 @app.get("/")
 async def root():
@@ -28,6 +33,7 @@ async def root():
             "last_match": "/api/stats/last-match",
             "stability": "/api/stats/stability/{player_id}",
             "matches": "/api/stats/matches/{player_id}",
-            "players": "/api/stats/players"
+            "players": "/api/stats/players",
+            "chat": "/api/chat/completions"
         }
     }
