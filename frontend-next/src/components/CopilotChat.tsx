@@ -34,11 +34,18 @@ export default function CopilotChat({ playerId, stabilityData, recentMatches }: 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [isHydrated, setIsHydrated] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
+  // Mark as hydrated on client
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
   // Load sessions from localStorage on mount
   useEffect(() => {
+    if (!isHydrated) return;
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       try {
@@ -61,7 +68,7 @@ export default function CopilotChat({ playerId, stabilityData, recentMatches }: 
         console.error('Failed to load chat sessions:', e);
       }
     }
-  }, []);
+  }, [isHydrated]);
 
   // Save sessions to localStorage whenever they change
   useEffect(() => {
@@ -223,6 +230,17 @@ export default function CopilotChat({ playerId, stabilityData, recentMatches }: 
       return date.toLocaleDateString();
     }
   };
+
+  // Prevent hydration mismatch by not rendering until client-side
+  if (!isHydrated) {
+    return (
+      <div className={styles.container}>
+        <div className="flex items-center justify-center w-full h-full">
+          <div className="inline-block w-8 h-8 border-4 border-red-highlight border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>

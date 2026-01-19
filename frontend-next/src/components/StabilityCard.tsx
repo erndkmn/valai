@@ -15,18 +15,18 @@ export default function StabilityCard({ data, isEmpty }: StabilityCardProps) {
       <div className="flex justify-between items-center mb-5 flex-wrap gap-4">
         <div>
           <div className="text-text-secondary text-sm uppercase tracking-wider mb-2 flex items-center gap-2">
-            Stability Score
+            <strong>Stability Score</strong>
             <span className="group relative inline-flex items-center cursor-help">
               <span className="w-[18px] h-[18px] rounded-full bg-border-color-light text-text-secondary flex items-center justify-center text-xs font-semibold transition-colors group-hover:bg-red-highlight group-hover:text-white">
                 ?
               </span>
               <div className="absolute bottom-full left-1/2 -translate-x-1/2 -translate-y-2 bg-card-bg-light border border-border-color rounded-lg p-3 min-w-[280px] max-w-[320px] text-sm leading-relaxed text-text-primary opacity-0 pointer-events-none transition-all group-hover:opacity-100 group-hover:-translate-y-1 z-50 shadow-lg mb-2">
-                <strong>Stability Score</strong><br />
+                <strong className='text-red-highlight'>Stability Score</strong><br />
                 Measures how consistent your headshot rate is across matches.<br /><br />
-                <strong>Scale (0-100):</strong><br />
-                • 71-100: Stable - Consistent performance<br />
-                • 31-70: Inconsistent - Moderate variation<br />
-                • 0-30: Unstable - High variation
+                <strong className='text-red-highlight'>Scale (0-100):</strong><br />
+                • <span className='text-[#34D399]'>71-100: Stable - Consistent performance</span><br />
+                • <span className='text-[#FBBF24]'>31-70: Inconsistent - Moderate variation</span><br />
+                • <span className='text-[#b33a3c]'>0-30: Unstable - High variation</span>
                 <div className="absolute top-full left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-card-bg-light" />
               </div>
             </span>

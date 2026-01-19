@@ -6,10 +6,10 @@ interface TabNavigationProps {
 }
 
 const tabs = [
-  { id: 'stability', label: 'Stability', imgSrc: 'stability_icon.png', imgSrcRed: 'stabilityRed_icon.png' },
-  { id: 'positioning', label: 'Positioning', imgSrc: 'positioning_icon.png', imgSrcRed: 'positioningRed_icon.png' },
-  { id: 'prediction', label: 'Prediction', imgSrc: 'prediction_icon.png', imgSrcRed: 'predictionRed_icon.png' },
-  { id: 'copilot', label: 'Copilot', imgSrc: 'copilot_icon.png', imgSrcRed: 'copilotRed_icon.png' } 
+  { id: 'stability', label: 'Stability', imgSrc: '/icons/stability_icon.png', imgSrcRed: '/icons/stabilityRed_icon.png' },
+  { id: 'positioning', label: 'Positioning', imgSrc: '/icons/positioning_icon.png', imgSrcRed: '/icons/positioningRed_icon.png' },
+  { id: 'prediction', label: 'Prediction', imgSrc: '/icons/prediction_icon.png', imgSrcRed: '/icons/predictionRed_icon.png' },
+  { id: 'copilot', label: 'Copilot', imgSrc: '/icons/copilot_icon.png', imgSrcRed: '/icons/copilotRed_icon.png' } 
 ];
 
 export default function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
