@@ -190,13 +190,13 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-800">
               <button 
                 onClick={() => document.getElementById('get-started')?.scrollIntoView({ behavior: 'smooth' })}
-                className="bg-red-highlight hover:bg-red-highlight-light text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all hover:scale-105"
+                className="bg-cyan-500 hover:bg-cyan-400 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all hover:scale-105"
               >
                 Start Analyzing Free
               </button>
               <Link 
                 href="#features"
-                className="bg-card-bg hover:bg-card-bg-light border-2 border-border-color text-text-primary px-8 py-4 rounded-xl font-semibold text-lg transition-all hover:border-red-highlight"
+                className="bg-card-bg hover:bg-card-bg-light border-2 border-border-color text-text-primary px-8 py-4 rounded-xl font-semibold text-lg transition-all hover:border-cyan-500"
               >
                 Learn More
               </Link>
@@ -234,7 +234,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-card-bg rounded-2xl border-2 border-border-color p-8 hover:border-red-highlight/50 transition-colors">
               <div className="w-14 h-14 bg-red-highlight/10 rounded-xl flex items-center justify-center mb-6">
-                <span className="text-3xl">📊</span>
+                <img src="/icons/stabilityRed_icon.png" alt="" />
               </div>
               <h3 className="text-xl font-semibold text-text-primary mb-3">Stability Analysis</h3>
               <p className="text-text-secondary">
@@ -244,7 +244,7 @@ export default function Home() {
 
             <div className="bg-card-bg rounded-2xl border-2 border-border-color p-8 hover:border-red-highlight/50 transition-colors">
               <div className="w-14 h-14 bg-red-highlight/10 rounded-xl flex items-center justify-center mb-6">
-                <span className="text-3xl">📈</span>
+                <img src="/icons/chart_icon.png" alt="" />
               </div>
               <h3 className="text-xl font-semibold text-text-primary mb-3">Trend Analytics</h3>
               <p className="text-text-secondary">
@@ -254,7 +254,7 @@ export default function Home() {
 
             <div className="bg-card-bg rounded-2xl border-2 border-border-color p-8 hover:border-red-highlight/50 transition-colors">
               <div className="w-14 h-14 bg-red-highlight/10 rounded-xl flex items-center justify-center mb-6">
-                <span className="text-3xl">🤖</span>
+                <img src="/icons/copilotRed_icon.png" alt="AI Copilot" />
               </div>
               <h3 className="text-xl font-semibold text-text-primary mb-3">AI Copilot</h3>
               <p className="text-text-secondary">
@@ -351,8 +351,8 @@ export default function Home() {
             </div>
 
             {/* Pro Plan */}
-            <div className="bg-card-bg rounded-2xl border-2 border-red-highlight p-8 relative">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-red-highlight text-white text-sm font-semibold px-4 py-1 rounded-full">
+            <div className="bg-card-bg rounded-2xl border-2 border-cyan-500 p-8 relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-cyan-500 text-white text-sm font-semibold px-4 py-1 rounded-full">
                 Popular
               </div>
               <h3 className="text-xl font-semibold text-text-primary mb-2">Pro</h3>
@@ -381,10 +381,10 @@ export default function Home() {
                   <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  Priority support
+                  Performance Predicitions
                 </li>
               </ul>
-              <button className="w-full bg-red-highlight hover:bg-red-highlight-light text-white py-3 rounded-xl font-semibold transition-colors">
+              <button className="w-full bg-cyan-500 hover:bg-cyan-400 text-white py-3 rounded-xl font-semibold transition-colors">
                 Upgrade to Pro
               </button>
             </div>
