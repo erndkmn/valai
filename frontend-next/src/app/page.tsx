@@ -3,10 +3,60 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
+import { useAuth } from '@/lib/auth-context';
 import Link from 'next/link';
+import TestimonialsCarousel from '@/components/TestimonialsCarousel';
+import { Testimonial } from '@/components/TestimonialCard';
+
+// Sample testimonials data
+const testimonials: Testimonial[] = [
+  {
+    id: 1,
+    name: 'PhantomAce',
+    rank: 'immortal2',
+    quote: 'ValAI completely changed how I approach my gameplay. The stability analysis helped me identify that I perform best in the evening, and the AI coaching tips actually work!',
+    rating: 5,
+  },
+  {
+    id: 2,
+    name: 'NeonStrike',
+    rank: 'diamond3',
+    quote: 'I went from hardstuck Plat to Diamond in just two weeks. The trend analytics showed me my headshot rate was dropping in long sessions - game changer!',
+    rating: 5,
+  },
+  {
+    id: 3,
+    name: 'ShadowViper',
+    rank: 'ascendant1',
+    quote: 'The AI Copilot is like having a personal coach available 24/7. It noticed patterns in my gameplay I never would have seen myself.',
+    rating: 4.5,
+  },
+  {
+    id: 4,
+    name: 'CrimsonBlade',
+    rank: 'platinum2',
+    quote: 'Super clean interface and the insights are spot on. My K/D has improved significantly since I started using ValAI consistently.',
+    rating: 5,
+  },
+  {
+    id: 5,
+    name: 'FrostByte',
+    rank: 'diamond1',
+    quote: 'Worth every penny for the Pro plan. The unlimited match history and detailed analytics helped our team prepare for tournaments.',
+    rating: 4.5,
+  },
+  {
+    id: 6,
+    name: 'VoltageRush',
+    rank: 'gold3',
+    quote: 'Even as a casual player, ValAI helped me understand my strengths. Love the simple UI and actionable advice!',
+    rating: 4,
+  },
+];
 
 export default function Home() {
   const router = useRouter();
+  const { isAuthenticated, user, isLoading: authLoading } = useAuth();
   const [players, setPlayers] = useState<string[]>([]);
   const [selectedPlayer, setSelectedPlayer] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
@@ -87,12 +137,25 @@ export default function Home() {
               <Link href="#pricing" className="text-text-secondary hover:text-text-primary transition-colors">
                 Pricing
               </Link>
-              <button 
-                onClick={() => document.getElementById('get-started')?.scrollIntoView({ behavior: 'smooth' })}
-                className="bg-red-highlight hover:bg-red-highlight-light text-white px-5 py-2 rounded-lg font-medium transition-colors"
-              >
-                Get Started
-              </button>
+              {authLoading ? (
+                <div className="w-20 h-10 bg-card-bg rounded-lg animate-pulse"></div>
+              ) : isAuthenticated ? (
+                <Link 
+                  href="/dashboard"
+                  className="bg-red-highlight hover:bg-red-highlight-light text-white px-5 py-2 rounded-lg font-medium transition-colors"
+                >
+                  Dashboard
+                </Link>
+              ) : (
+                <div className="flex items-center gap-3">
+                  <Link 
+                    href="/login"
+                    className="bg-red-highlight hover:bg-red-highlight-light text-white px-5 py-2 rounded-lg font-medium transition-colors"
+                  >
+                    Login
+                  </Link>
+                </div>
+              )}
             </div>
 
             {/* Mobile menu button */}
@@ -123,15 +186,32 @@ export default function Home() {
                 <Link href="#pricing" className="text-text-secondary hover:text-text-primary transition-colors">
                   Pricing
                 </Link>
-                <button 
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    document.getElementById('get-started')?.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                  className="bg-red-highlight hover:bg-red-highlight-light text-white px-5 py-2 rounded-lg font-medium transition-colors w-fit"
-                >
-                  Get Started
-                </button>
+                {isAuthenticated ? (
+                  <Link 
+                    href="/dashboard"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="bg-red-highlight hover:bg-red-highlight-light text-white px-5 py-2 rounded-lg font-medium transition-colors w-fit"
+                  >
+                    Dashboard
+                  </Link>
+                ) : (
+                  <div className="flex flex-col gap-2">
+                    <Link 
+                      href="/login"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="text-text-secondary hover:text-text-primary transition-colors"
+                    >
+                      Sign In
+                    </Link>
+                    <Link 
+                      href="/register"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="bg-red-highlight hover:bg-red-highlight-light text-white px-5 py-2 rounded-lg font-medium transition-colors w-fit"
+                    >
+                      Get Started
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -190,7 +270,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-800">
               <button 
                 onClick={() => document.getElementById('get-started')?.scrollIntoView({ behavior: 'smooth' })}
-                className="bg-cyan-500 hover:bg-cyan-400 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all hover:scale-105"
+                className="cursor-pointer bg-cyan-500 hover:bg-cyan-400 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all hover:scale-105"
               >
                 Start Analyzing Free
               </button>
@@ -375,7 +455,7 @@ export default function Home() {
                   <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                   </svg>
-                  Unlimited AI Copilot
+                  AI Copilot chat
                 </li>
                 <li className="flex items-center gap-2 text-text-secondary">
                   <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
@@ -384,7 +464,7 @@ export default function Home() {
                   Performance Predicitions
                 </li>
               </ul>
-              <button className="w-full bg-cyan-500 hover:bg-cyan-400 text-white py-3 rounded-xl font-semibold transition-colors">
+              <button className="cursor-pointer w-full bg-cyan-500 hover:bg-cyan-400 text-white py-3 rounded-xl font-semibold transition-colors">
                 Upgrade to Pro
               </button>
             </div>
@@ -428,51 +508,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Get Started Section */}
-      <section id="get-started" className="py-20 px-4">
-        <div className="max-w-3xl mx-auto">
-          <div className="bg-card-bg rounded-2xl border-2 border-border-color p-8 md:p-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">Start Your Analysis</h2>
-            <p className="text-text-secondary text-center mb-8">
-              Select your player profile to begin tracking your Valorant performance
+      {/* Testimonials Section */}
+      <section id="testimonials" className="py-20 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">What Players Say</h2>
+            <p className="text-text-secondary text-lg max-w-2xl mx-auto">
+              Join thousands of players who have elevated their game with ValAI
             </p>
-            
-            {error && (
-              <div className="bg-red-500/20 border-2 border-red-highlight text-red-highlight p-4 rounded-xl mb-5 text-center font-medium">
-                {error}
-              </div>
-            )}
+          </div>
 
-            {loading ? (
-              <div className="text-center py-10">
-                <div className="inline-block w-8 h-8 border-4 border-red-highlight border-t-transparent rounded-full animate-spin"></div>
-                <p className="mt-4 text-text-secondary">Loading players...</p>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-text-secondary mb-2 font-medium">Select Player</label>
-                  <select
-                    value={selectedPlayer}
-                    onChange={(e) => setSelectedPlayer(e.target.value)}
-                    className="w-full bg-bg-color border-2 border-border-color rounded-xl px-4 py-3 text-text-primary focus:border-red-highlight focus:outline-none transition-colors"
-                  >
-                    {players.map((player) => (
-                      <option key={player} value={player}>
-                        {player}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <button
-                  onClick={handleLoadStats}
-                  disabled={!selectedPlayer}
-                  className="w-full bg-red-highlight hover:bg-red-highlight-light disabled:opacity-50 disabled:cursor-not-allowed text-white py-4 rounded-xl font-semibold text-lg transition-all hover:scale-[1.02]"
-                >
-                  View My Stats →
-                </button>
-              </div>
-            )}
+          <div className="px-8 md:px-12">
+            <TestimonialsCarousel testimonials={testimonials} />
           </div>
         </div>
       </section>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { api, StabilityData, Match } from '@/lib/api';
 import TabNavigation from '@/components/TabNavigation';
 import TimeframeSelector from '@/components/TimeframeSelector';
@@ -9,13 +9,16 @@ import StabilityCard from '@/components/StabilityCard';
 import TrendChart from '@/components/TrendChart';
 import RecentMatches from '@/components/RecentMatches';
 import CopilotChat from '@/components/CopilotChat';
+import ProtectedRoute from '@/components/ProtectedRoute';
 import Link from 'next/link';
 
-export default function PlayerStats() {
+function PlayerStatsContent() {
   const params = useParams();
+  const searchParams = useSearchParams();
   const playerId = params.id as string;
+  const tabParam = searchParams.get('tab');
   
-  const [activeTab, setActiveTab] = useState<string>('stability');
+  const [activeTab, setActiveTab] = useState<string>(tabParam || 'stability');
   const [currentTimeframe, setCurrentTimeframe] = useState<string>('all_time');
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -23,6 +26,13 @@ export default function PlayerStats() {
   const [stabilityData, setStabilityData] = useState<StabilityData | null>(null);
   const [matches, setMatches] = useState<Match[]>([]);
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
+
+  // Update active tab when URL param changes
+  useEffect(() => {
+    if (tabParam && ['stability', 'positioning', 'prediction', 'copilot'].includes(tabParam)) {
+      setActiveTab(tabParam);
+    }
+  }, [tabParam]);
 
   const loadPlayerStats = useCallback(async () => {
     if (!playerId) {
@@ -75,13 +85,13 @@ export default function PlayerStats() {
 
         <div className="mb-6">
           <Link 
-            href="/"
+            href="/dashboard"
             className="inline-flex items-center gap-2 text-text-secondary hover:text-red-highlight transition-colors"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
               <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
             </svg>
-            Back to Player Selection
+            Back to Dashboard
           </Link>
         </div>
 
@@ -141,5 +151,13 @@ export default function PlayerStats() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function PlayerStats() {
+  return (
+    <ProtectedRoute>
+      <PlayerStatsContent />
+    </ProtectedRoute>
   );
 }
