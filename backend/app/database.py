@@ -39,5 +39,5 @@ def init_db():
     Initialize the database by creating all tables.
     Call this on application startup.
     """
-    from app.models import user  # Import models to register them
+    from app.models import user, token_usage  # Import models to register them
     Base.metadata.create_all(bind=engine)

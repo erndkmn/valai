@@ -9,7 +9,12 @@ sqlalchemy>=2.0.0
 
 # Authentication
 passlib[bcrypt]>=1.7.4
+bcrypt==4.0.1
 python-jose[cryptography]>=3.3.0
 
 # Validation
 email-validator>=2.0.0
+
+# Redis (optional - for distributed rate limiting)
+# Install with: pip install redis
+redis>=5.0.0
